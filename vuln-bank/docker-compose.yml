@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+      - "80:5000"
+      # - "443:5000" 
+
+    environment:
+      - DB_NAME=vulnerable_bank
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db 
+      - DB_PORT=5432
+    depends_on:
+      - db
+    volumes:
+      - ./static/uploads:/app/static/uploads
+      - ./templates:/app/templates
+    networks:
+      - vuln_network
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=vulnerable_bank
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vuln_network
+      
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - vuln_network
+
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  vuln_network:
+    driver: bridge

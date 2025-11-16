@@ -1,0 +1,3 @@
+[2025-10-13 12:30:15] CRITICAL: Unhandled PDOException: SQLSTATE[28000] [1045] Access denied for user 'webapp_user'@'10.0.1.23' (using password: YES) in /var/www/html/lib/Database.php on line 87
+# Connection attempt failed. // FLAG{OK_YOU_STILL_GOT_LONG_WAY_TO_GO:)}
+Connection string: Server=bank-db-prod.internal;Database=CustomerAccounts;User=webapp_user;Password=SecureB@nk2024;
